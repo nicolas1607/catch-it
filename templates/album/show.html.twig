@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collections{% endblock %}
+
+{% block body %}
+<div class="cont">
+    <div class="header">
+        <h1 class="title-h1">{{ album.name }}</h1>
+        <p class="header-desc">{{ album.description }}</p>
+        <div class="header-btn">
+            <a href="{{ path('edit_album', {'id': album.id}) }}" class="btn btn-primary">Modifier</a>
+            <a href="{{ path('add_item') }}" class="btn btn-primary">Ajouter un item</a>
+        </div>
+    </div>
+    {% if album.items %}
+        {% for item in album.items %}
+            <div class="card bg-light mb-3" style="max-width: 20rem;">
+                <div class="card-header card-title">
+                    <a href=""><h4 class="card-title">{{ item.name }}</h4></a>
+                </div>
+                {# <div class="card-body">
+                    <p class="card-category">Light card title</p>
+                    <p class="card-text">{{ album.description }}</p>
+                </div> #}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    
+</div>
+{% endblock %}
