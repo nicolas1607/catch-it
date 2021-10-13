@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container nav">
+        <a class="navbar-brand" href="{{ url('home') }}">Catch'it</a>
+        {# <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button> #}
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav me-auto">
+                {# <li class="nav-item">
+                <a class="nav-link active" href="#">Home
+                    <span class="visually-hidden">(current)</span>
+                </a>
+                </li> #}
+                <li class="nav-item">
+                <a class="nav-link" href="#">Parcourir</a>
+                </li>
+                {% if (app.user) %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url('album') }}">Mes collections</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="profile">
+        </div>
+        {% if (app.user) %}
+        <div class="logout">
+            {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link" href="{{ url('admin') }}">Admin</a>
+            {% endif %}
+            <a class="nav-link" href="{{ url('profile') }}">Mon profil</a>
+            <a class="nav-link" href="{{ url('app_logout') }}">Logout</a>
+        </div>
+        {% else %}
+        <div class="login">
+            <a class="nav-link" href="{{ url('app_login') }}">Login</a>
+            <a class="nav-link" href="{{ url('app_register') }}">Register</a>
+        </div>
+        {% endif %}
+    </div>
+</nav>
