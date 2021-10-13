@@ -25,14 +25,19 @@ class Album
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="albums")
-     */
-    private $user_id;
-
-    /**
      * @ORM\OneToMany(targetEntity=Item::class, mappedBy="album")
      */
     private $items;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="albums")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -52,18 +57,6 @@ class Album
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getUserId(): ?User
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
 
         return $this;
     }
@@ -94,6 +87,30 @@ class Album
                 $item->setAlbum(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
