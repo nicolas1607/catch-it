@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AlbumRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AlbumRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AlbumRepository::class)
@@ -25,7 +26,7 @@ class Album
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="album")
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="album", cascade={"persist", "remove"})
      */
     private $items;
 
@@ -38,6 +39,11 @@ class Album
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -82,7 +88,6 @@ class Album
     public function removeItem(Item $item): self
     {
         if ($this->items->removeElement($item)) {
-            // set the owning side to null (unless already changed)
             if ($item->getAlbum() === $this) {
                 $item->setAlbum(null);
             }
@@ -111,6 +116,18 @@ class Album
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

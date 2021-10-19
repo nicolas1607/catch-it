@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AlbumType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -20,10 +21,22 @@ class AlbumType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'attr' => ['rows' => 6]
+                'required' => false,
+                'attr' => [
+                    'rows' => 6,
+                    'maxlength' => 250
+                ]
             ])
+            // ->add('categories', EntityType::class, [
+            //     'class' => Category::class,
+            //     'label' => 'Category',
+            //     'mapped' => false,
+            //     'expanded' => true,
+            //     'multiple' => true,
+            //     'choice_label' => 'name',
+            // ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Ajouter',
+                'label' => 'Envoyer',
                 'attr' => ['class' => 'btn btn-primary']
             ]);
     }
@@ -32,6 +45,7 @@ class AlbumType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Album::class,
+            'categories' => null,
         ]);
     }
 }
