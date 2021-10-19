@@ -8,6 +8,14 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 import './styles/bootstrap.min.css';
+require('@fortawesome/fontawesome-free/css/all.min.css');
+
 
 // start the Stimulus application
 import './bootstrap';
+import './swiper';
+require('@fortawesome/fontawesome-free/js/all.js');
+
+// alert-success & alert-danger
+const alert = document.querySelector('.alert');
+setTimeout(function () { if (alert) alert.remove() }, 2000);

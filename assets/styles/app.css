@@ -1,10 +1,15 @@
 body {
     background-color: lightgray;
+    position: relative;
 }
 
-a {
-    color: black;
+div a {
     text-decoration: none;
+}
+
+.link-underline {
+    text-decoration: underline;
+    margin-right: 1rem;
 }
 
 li {
@@ -16,6 +21,10 @@ li {
 .title-h1 {
     font-size: 2rem;
     margin-bottom: 2rem;
+}
+
+.title-h2 {
+    margin-bottom: 4rem;
 }
 
 .title-h3 {
@@ -32,6 +41,95 @@ li {
 .cont {
     padding-left: 8rem;
     padding-right: 8rem;
+    margin-bottom: 8rem;
+}
+
+/* Alert Succes & Danger */
+
+.alert {
+    position: absolute !important;
+    top: 5rem;
+    right: 2rem;
+    min-width: 18rem;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: bounce 0.7s ease infinite;
+}
+
+@keyframes bounce{
+    from {top: 90px;}
+    50%  {top: 86px;}
+    to   {top: 90px;}
+}
+
+.alert p {
+    margin-bottom: 0;
+}
+
+#alert-close {
+    cursor: pointer;
+}
+
+/* Swiper */
+
+.swiper-slide {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.swiper-button-prev {
+    position: fixed;
+}
+
+/* Login */
+
+.form-login,
+.form-register {
+    margin: auto;
+    width: 40rem;
+    border: solid .1px #cce7df;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    border-radius: 1rem;
+}
+
+.form-group-login {
+    margin-bottom: 2rem;
+}
+
+.form-group-login label {
+    width: 8rem;
+}
+
+.form-submit-login {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+/* Register */
+
+.form-group-register {
+    margin-bottom: 2rem;
+}
+
+.form-group-register div label {
+    width: 8rem;
+}
+
+.form-group-agree div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-submit-register div {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
 }
 
 /* Form */
@@ -71,12 +169,67 @@ textarea {
     width: 8rem;
 }
 
+/* Card */
+
+.card {
+    position: relative;
+}
+
+.card:hover
+.card-delete,
+.card:hover
+.card-add,
+.card:hover 
+.card-edit {
+    display: block;
+}
+
+.card-delete,
+.card-add {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    opacity: 0.4rem;
+    padding: .8rem 1rem;
+}
+
+.card-delete:hover,
+.card-add:hover,
+.card-edit:hover {
+    transform: scale(1.4);
+}
+
+.card-edit {
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    display: none;
+    opacity: 0.4rem;
+    padding: .8rem 1rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h4 {
+    margin-top: .5rem;
+}
+
+.card-cat {
+    margin-bottom: 1rem;
+}
+
 /* Navbar */
 
 .navbar {
     margin-bottom: 4rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    border-bottom: solid .1px #cce7df;
 }
 
 .navbar .nav {
@@ -105,28 +258,50 @@ textarea {
 /* Header (Title + Button) */
 
 .header {
+    margin-bottom: 2rem;
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.header a {
-    margin-top: 6rem;
+.header-desc {
+    width: 48rem;
 }
 
-/* Album */
+.header-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -1rem;
+}
+
+.header-btn a {
+    margin-left: 1rem;
+}
+
+/* List albums / items */
 
 #new_album_name {
     margin-left: 1rem;
     margin-right: 2rem;
 }
 
-.album-list {
-    margin-top: 4rem;
+.list {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 4rem;
+    margin-top: 4rem;
 }
+
+/* Add Album */
+
+#album_categories * {
+    width: 2rem;
+}
+
+
 
 /* Profil */
 
@@ -135,4 +310,17 @@ textarea {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+}
+
+/* Admin */
+
+.table {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.table-action a {
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
