@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ItemRepository;
+use App\Entity\Album;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ItemRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ItemRepository::class)
@@ -26,6 +27,11 @@ class Item
      * @ORM\ManyToOne(targetEntity=Album::class, inversedBy="items")
      */
     private $album;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
 
     public function getId(): ?int
     {
@@ -52,6 +58,18 @@ class Item
     public function setAlbum(?Album $album): self
     {
         $this->album = $album;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
