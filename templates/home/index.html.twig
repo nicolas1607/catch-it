@@ -8,16 +8,11 @@
         <h1 class="title-h1 title-center">Bienvenue sur Catch'it !</h1>
         <div class="header-content">
             <p>De nombreux collectioneurs à travers le monde ...</p>
-            {# {% if app.user %}
-            <div class="header-btn">
-                <a href="{{ url('add_album') }}" class="btn btn-primary">Ajouter</a>
-            </div>
-            {% endif %} #}
         </div>
     </div>
     <div
     {% if lastAlbums %}
-        <div class="last-albums">
+        <div class="home-albums last-albums">
             <h2 class="title-h2">Les derniers ajouts</h2>
             <div class="swiper">
                 <div class="swiper-wrapper">
@@ -32,7 +27,7 @@
                                 <div class="card-header">
                                     <a href="{{ path('show_album', {'id': album.id}) }}"><h4 class="card-title">{{ album.name }}</h4></a>
                                     {% if app.user and not is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('add_album_exist', {'id': album.id}) }}" class="card-add"><i class="fas fa-plus"></i></a>
+                                    <p class="card-date">{{ album.createdAt|date("m/d/Y") }}</p>
                                     {% endif %}
                                 </div>
                                 <div class="card-body">
@@ -44,9 +39,37 @@
                 <!-- If we need navigation buttons -->
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-                
-                <!-- If we need scrollbar -->
-                <div class="swiper-scrollbar"></div>
+            </div>
+            </div>
+        </div>
+
+        <div class="home-albums most-albums">
+            <h2 class="title-h2">Les plus collectionnés</h2>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    {% for album in mostAlbums %}
+                        {% if (loop.index0%3 == 0 and loop.index0 != 0) %}
+                            </div>
+                        {% endif %}
+                        {% if (loop.index0%3 == 0) %}
+                            <div class="swiper-slide">
+                        {% endif %}
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <a href="{{ path('show_album', {'id': album.id}) }}"><h4 class="card-title">{{ album.name }}</h4></a>
+                                    {% if app.user and not is_granted('ROLE_ADMIN') %}
+                                    <p class="card-added">{{ album.added }} ajouts</p>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{ album.description }}</p>
+                                </div>
+                            </div>
+                    {% endfor %}
+                </div>
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
             </div>
         </div>

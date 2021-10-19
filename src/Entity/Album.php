@@ -45,6 +45,11 @@ class Album
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default": 0})
+     */
+    private $added;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -128,6 +133,18 @@ class Album
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getAdded(): ?int
+    {
+        return $this->added;
+    }
+
+    public function setAdded(?int $added): self
+    {
+        $this->added = $added;
 
         return $this;
     }

@@ -80,10 +80,6 @@ li {
     gap: 2rem;
 }
 
-.swiper-button-prev {
-    position: fixed;
-}
-
 /* Login */
 
 .form-login,
@@ -175,6 +171,10 @@ textarea {
     position: relative;
 }
 
+.card-title {
+    max-width: 18rem;
+}
+
 .card:hover
 .card-delete,
 .card:hover
@@ -219,6 +219,14 @@ textarea {
     margin-top: .5rem;
 }
 
+.card-added,
+.card-date {
+    margin-bottom: 0;
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+}
+
 .card-cat {
     margin-bottom: 1rem;
 }
@@ -255,7 +263,7 @@ textarea {
     align-items: center;
 }
 
-/* Header (Title + Button) */
+/* En-tête de page (Titre + Boutton ajouter / modifier / ...) */
 
 .header {
     margin-bottom: 2rem;
@@ -279,6 +287,13 @@ textarea {
 
 .header-btn a {
     margin-left: 1rem;
+}
+
+/* Homepage */
+
+.home-albums {
+    margin-bottom: 6rem;
+    position: relative;
 }
 
 /* List albums / items */

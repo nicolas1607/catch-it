@@ -23,15 +23,24 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $qb = $this->em->createQuery(
-            "SELECT alb FROM App:album alb
-            WHERE alb.user IS NULL
-            ORDER BY alb.createdAt DESC"
+            "SELECT a FROM App:album a
+            WHERE a.user IS NULL
+            ORDER BY a.createdAt DESC"
         );
         $qb->setMaxResults(6);
-        $albums = $qb->getResult();
+        $lastAlbums = $qb->getResult();
+
+        $qb = $this->em->createQuery(
+            "SELECT a FROM App:album a
+            WHERE a.user IS NULL
+            ORDER BY a.added DESC"
+        );
+        $qb->setMaxResults(6);
+        $mostAlbums = $qb->getResult();
 
         return $this->render('home/index.html.twig', [
-            'lastAlbums' => $albums
+            'lastAlbums' => $lastAlbums,
+            'mostAlbums' => $mostAlbums
         ]);
     }
 }

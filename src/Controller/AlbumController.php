@@ -104,6 +104,7 @@ class AlbumController extends AbstractController
             AND a.name = '" . $album->getName() . "'"
         );
         $origin = $qb->getResult()[0];
+        $origin->setAdded($origin->getAdded() + 1);
 
         $this->em->persist($user);
         $this->em->persist($album);
@@ -153,7 +154,7 @@ class AlbumController extends AbstractController
     /**
      * @Route("/album/{id}", name="delete_album")
      */
-    public function delete(Request $request, Album $id): Response
+    public function delete(Album $id): Response
     {
         $user = $this->getUser();
         $this->em->remove($id);
