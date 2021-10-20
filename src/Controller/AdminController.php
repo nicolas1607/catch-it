@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
 use App\Entity\User;
 use App\Entity\Album;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,10 +24,8 @@ class AdminController extends AbstractController
      */
     public function user(): Response
     {
-        $user = $this->getUser();
         $users = $this->em->getRepository(User::class)->findAll();
         return $this->render('admin/user.html.twig', [
-            'user' => $user,
             'users' => $users
         ]);
     }
@@ -36,11 +35,11 @@ class AdminController extends AbstractController
      */
     public function collection(): Response
     {
-        $user = $this->getUser();
         $qb = $this->em->createQuery(
-            "SELECT a.id, a.name FROM App:album a
+            "SELECT a.id, a.name, a.added, a.createdAt 
+            FROM App:album a
             WHERE a.user is NULL
-            ORDER BY a.createdAt DESC"
+            ORDER BY a.id ASC"
         );
         $res = $qb->getResult();
         // On récupère le nombre d'items par collection
@@ -52,11 +51,27 @@ class AdminController extends AbstractController
                 WITH a.id = i.album
                 WHERE a.name = '" . $collection['name'] . "'"
             );
-            array_push($collections, [$collection['id'], $collection['name'], $qb->getResult()[0][1]]);
+            array_push($collections, [$collection['id'], $collection['name'], $qb->getResult()[0][1], $collection['added'], $collection['createdAt']]);
         }
         return $this->render('admin/collection.html.twig', [
-            'user' => $user,
             'collections' => $collections
+        ]);
+    }
+
+    /**
+     * @Route("/admin/item", name="admin_item")
+     */
+    public function item(): Response
+    {
+        $qb = $this->em->createQuery(
+            "SELECT i FROM App:item i
+            INNER JOIN App:album a
+            WITH i.album = a.id
+            WHERE a.user IS NULL"
+        );
+        $items = $qb->getResult();
+        return $this->render('admin/item.html.twig', [
+            'items' => $items
         ]);
     }
 }

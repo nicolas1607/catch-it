@@ -33,7 +33,8 @@ class ItemController extends AbstractController
 
         if ($addItemForm->isSubmitted() && $addItemForm->isValid()) {
             $item = $addItemForm->getData();
-            $item->setAlbum($album_id);
+            $item->setAlbum($album_id)
+                ->setAdded(0);
             $album_id->addItem($item);
 
             $this->em->persist($item);
