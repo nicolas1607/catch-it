@@ -33,6 +33,11 @@ class Item
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default": 0})
+     */
+    private $added;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Item
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAdded(): ?int
+    {
+        return $this->added;
+    }
+
+    public function setAdded(?int $added): self
+    {
+        $this->added = $added;
 
         return $this;
     }

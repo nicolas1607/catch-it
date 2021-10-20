@@ -26,9 +26,7 @@
                             <div class="card bg-light">
                                 <div class="card-header">
                                     <a href="{{ path('show_album', {'id': album.id}) }}"><h4 class="card-title">{{ album.name }}</h4></a>
-                                    {% if app.user and not is_granted('ROLE_ADMIN') %}
                                     <p class="card-date">{{ album.createdAt|date("m/d/Y") }}</p>
-                                    {% endif %}
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">{{ album.description }}</p>
@@ -44,7 +42,7 @@
         </div>
 
         <div class="home-albums most-albums">
-            <h2 class="title-h2">Les plus collectionnés</h2>
+            <h2 class="title-h2">Les collections les plus utilisées</h2>
             <div class="swiper">
                 <div class="swiper-wrapper">
                     {% for album in mostAlbums %}
@@ -57,10 +55,13 @@
                             <div class="card bg-light">
                                 <div class="card-header">
                                     <a href="{{ path('show_album', {'id': album.id}) }}"><h4 class="card-title">{{ album.name }}</h4></a>
-                                    {% if app.user and not is_granted('ROLE_ADMIN') %}
-                                    <p class="card-added">{{ album.added }} ajouts</p>
-                                    {% endif %}
-                                </div>
+                                    <p class="card-added">{{ album.added }} 
+                                        {% if album.added <= 1 %}
+                                        ajout
+                                        {% else %}
+                                        ajouts
+                                        {% endif %}
+                                    </p>                                </div>
                                 <div class="card-body">
                                     <p class="card-text">{{ album.description }}</p>
                                 </div>
@@ -71,6 +72,29 @@
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             </div>
+            </div>
+        </div>
+
+        <div class="home-albums most-albums">
+            <h2 class="title-h2">Les items les plus collectionnés</h2>
+            <div class="list">
+                {% for item in mostItems %}
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <a href="{{ path('show_album', {'id': item.id}) }}"><h4 class="card-title">{{ item.name }}</h4></a>
+                                <p class="card-added">{{ item.added }} 
+                                    {% if item.added <= 1 %}
+                                    ajout
+                                    {% else %}
+                                    ajouts
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ item.description }}</p>
+                            </div>
+                        </div>
+                {% endfor %}
             </div>
         </div>
     {% endif %}

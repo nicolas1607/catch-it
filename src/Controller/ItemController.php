@@ -53,6 +53,7 @@ class ItemController extends AbstractController
      */
     public function addExist(Request $request, Item $item_id, Album $album_id): Response
     {
+        $item_id->setAdded($item_id->getAdded() + 1);
         // On récupère l'album de l'utilisateur
         $qb = $this->em->createQuery(
             "SELECT a FROM App:album a
@@ -63,7 +64,7 @@ class ItemController extends AbstractController
                 WITH i.album = alb.id
                 WHERE i.id = " . $item_id->getId() . ")"
         );
-        // Si le user ne possède pas encore la collection
+        // Si le user possède déjà la collection ou non
         if (count($qb->getResult()) == 0) {
             $user = $this->getUser();
             $album = new Album;
@@ -75,7 +76,7 @@ class ItemController extends AbstractController
         } else {
             $album = $qb->getResult()[0];
         }
-        // On récupère l'album d'origine
+        // On récupère l'album d'origine pour la redirection
         $qb = $this->em->createQuery(
             "SELECT a FROM App:album a
             WHERE a.user IS NULL

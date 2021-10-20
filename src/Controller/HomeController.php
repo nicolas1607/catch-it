@@ -38,9 +38,21 @@ class HomeController extends AbstractController
         $qb->setMaxResults(6);
         $mostAlbums = $qb->getResult();
 
+        $qb = $this->em->createQuery(
+            "SELECT i.id, i.name, i.added, i.description, a.name album 
+            FROM App:item i
+            INNER JOIN App:album a
+            WITH i.album = a.id
+            WHERE a.user IS NULL
+            ORDER BY i.added DESC"
+        );
+        $qb->setMaxResults(6);
+        $mostItems = $qb->getResult();
+
         return $this->render('home/index.html.twig', [
             'lastAlbums' => $lastAlbums,
-            'mostAlbums' => $mostAlbums
+            'mostAlbums' => $mostAlbums,
+            'mostItems' => $mostItems
         ]);
     }
 }
