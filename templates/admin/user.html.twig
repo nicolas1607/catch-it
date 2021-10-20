@@ -30,7 +30,6 @@
                 <th>Email</th>
                 <th>Contact</th>
                 <th>Roles</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -47,11 +46,6 @@
                         <li>{{ role }}</li>
                         {% endfor %}
                     </ul>
-                </td>
-                <td>
-                    <a href="{{ path('delete_user', {'id': user.id}) }}">
-                        <i class="fas fa-trash"></i>
-                    </a>
                 </td>
             </tr>
         {% else %}
