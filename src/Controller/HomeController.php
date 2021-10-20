@@ -27,7 +27,7 @@ class HomeController extends AbstractController
             WHERE a.user IS NULL
             ORDER BY a.createdAt DESC"
         );
-        $qb->setMaxResults(6);
+        $qb->setMaxResults(12);
         $lastAlbums = $qb->getResult();
 
         $qb = $this->em->createQuery(
@@ -35,12 +35,11 @@ class HomeController extends AbstractController
             WHERE a.user IS NULL
             ORDER BY a.added DESC"
         );
-        $qb->setMaxResults(6);
+        $qb->setMaxResults(12);
         $mostAlbums = $qb->getResult();
 
         $qb = $this->em->createQuery(
-            "SELECT i.id, i.name, i.added, i.description, a.name album 
-            FROM App:item i
+            "SELECT i FROM App:item i
             INNER JOIN App:album a
             WITH i.album = a.id
             WHERE a.user IS NULL

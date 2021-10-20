@@ -20,7 +20,6 @@ li {
 
 .title-h1 {
     font-size: 2rem;
-    margin-bottom: 2rem;
 }
 
 .title-h2 {
@@ -33,7 +32,10 @@ li {
 
 .title-center {
     text-align: center;
-    margin-bottom: 4rem;
+}
+
+.title-right {
+    text-align: right;
 }
 
 /* Container */
@@ -269,6 +271,13 @@ textarea {
     margin-bottom: 2rem;
 }
 
+.header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -292,7 +301,8 @@ textarea {
 /* Homepage */
 
 .home-albums {
-    margin-bottom: 6rem;
+    margin-top: 6rem;
+    margin-bottom: 8rem;
     position: relative;
 }
 

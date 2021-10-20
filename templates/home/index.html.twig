@@ -6,9 +6,6 @@
 <div class="cont">
     <div class="header">
         <h1 class="title-h1 title-center">Bienvenue sur Catch'it !</h1>
-        <div class="header-content">
-            <p>De nombreux collectioneurs à travers le monde ...</p>
-        </div>
     </div>
     <div
     {% if lastAlbums %}
@@ -17,10 +14,10 @@
             <div class="swiper">
                 <div class="swiper-wrapper">
                     {% for album in lastAlbums %}
-                        {% if (loop.index0%3 == 0 and loop.index0 != 0) %}
+                        {% if (loop.index0%6 == 0 and loop.index0 != 0) %}
                             </div>
                         {% endif %}
-                        {% if (loop.index0%3 == 0) %}
+                        {% if (loop.index0%6 == 0) %}
                             <div class="swiper-slide">
                         {% endif %}
                             <div class="card bg-light">
@@ -42,14 +39,14 @@
         </div>
 
         <div class="home-albums most-albums">
-            <h2 class="title-h2">Les collections les plus utilisées</h2>
+            <h2 class="title-h2 title-right">Les collections les plus utilisées</h2>
             <div class="swiper">
                 <div class="swiper-wrapper">
                     {% for album in mostAlbums %}
-                        {% if (loop.index0%3 == 0 and loop.index0 != 0) %}
+                        {% if (loop.index0%6 == 0 and loop.index0 != 0) %}
                             </div>
                         {% endif %}
-                        {% if (loop.index0%3 == 0) %}
+                        {% if (loop.index0%6 == 0) %}
                             <div class="swiper-slide">
                         {% endif %}
                             <div class="card bg-light">
@@ -81,7 +78,7 @@
                 {% for item in mostItems %}
                         <div class="card bg-light">
                             <div class="card-header">
-                                <a href="{{ path('show_album', {'id': item.id}) }}"><h4 class="card-title">{{ item.name }}</h4></a>
+                                <h4 class="card-title">{{ item.name }}</h4>
                                 <p class="card-added">{{ item.added }} 
                                     {% if item.added <= 1 %}
                                     ajout

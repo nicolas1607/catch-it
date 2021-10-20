@@ -58,20 +58,14 @@ class AlbumController extends AbstractController
     {
         $user = $this->getUser();
         $album = new Album();
-        // $cat = $this->em->getRepository(Category::class)->findAll();
-        // $categories = [];
-        // foreach ($cat as $c) {
-        //     array_push($categories, $c->getName());
-        // }
-        $addAlbumForm = $this->createForm(AlbumType::class, $album, array(
-            // 'categories' => $categories
-        ));
+        $addAlbumForm = $this->createForm(AlbumType::class, $album, array());
 
         $addAlbumForm->handleRequest($request);
 
         if ($addAlbumForm->isSubmitted() && $addAlbumForm->isValid()) {
             $album = $addAlbumForm->getData();
-            $album->setCreatedAt(new DateTimeImmutable());
+            $album->setCreatedAt(new DateTimeImmutable())
+                ->setAdded(0);
 
             $this->em->persist($album);
             $this->em->flush();

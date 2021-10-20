@@ -5,7 +5,9 @@
 {% block body %}
 <div class="cont">
     <div class="header">
-        <h1 class="title-h1">Parcourir les collections</h1>
+        <div class="header-title">
+            <h1 class="title-h1">Parcourir les collections</h1>
+        </div>
         <div class="header-content">
             <p>Renseignez vous sur les dernières nouveautés : </br> Parcourez le monde à la recherche de ses trésors.</p>
             {% if is_granted('ROLE_ADMIN') %}
