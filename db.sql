@@ -24,7 +24,7 @@ INSERT INTO item(name, album_id) VALUES ('Millennium Falcon', 1);
 INSERT INTO item(name, album_id) VALUES ('Stormtrooper', 1);
 INSERT INTO item(name, album_id) VALUES ('BB-8', 1);
 INSERT INTO item(name, album_id) VALUES ('R2-2', 1);
-INSERT INTO item(name, album_id) VALUES ('Imperial Star Destroyer', 1);
+INSERT INTO item(name, album_id) VALUES ('Imperial Destroyer', 1);
 INSERT INTO item(name, album_id) VALUES ('AT-AT', 1);
 INSERT INTO item(name, album_id) VALUES ('The Mandalorian', 1);
 
