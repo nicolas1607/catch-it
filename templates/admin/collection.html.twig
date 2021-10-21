@@ -42,13 +42,16 @@
                 <td>{{ collection[3] }}</td>
                 <td>{{ collection[4]|date("m/d/Y") }}</td>
                 <td class="table-action">
-                    <a href="{{ path('show_album', {'id': collection[0]}) }}">
+                    <a href="{{ path('show_album', {'id': collection[0]}) }}" title="Voir une collection">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <a href="{{ path('edit_album', {'id': collection[0]}) }}">
+                    <a href="{{ path('edit_album', {'id': collection[0]}) }}" title="Modifier une collection">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('delete_album', {'id': collection[0]}) }}">
+                    <a href="{{ path('add_item', {'album_id': collection[0]}) }}" title="Ajouter un item">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <a href="{{ path('delete_album', {'id': collection[0]}) }}" title="Supprimer une collection">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

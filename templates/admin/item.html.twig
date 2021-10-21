@@ -40,10 +40,10 @@
                 <td>{{ item.album.name }}</td>
                 <td>{{ item.added }}</td>
                 <td class="table-action">
-                    <a href="{{ path('edit_item', {'id': item.id}) }}">
+                    <a href="{{ path('edit_item', {'id': item.id}) }}" title="Modifer un item">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{{ path('delete_item', {'id': item.id}) }}">
+                    <a href="{{ path('delete_item', {'id': item.id}) }}" title="Supprimer un item">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>
