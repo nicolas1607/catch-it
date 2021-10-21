@@ -6,13 +6,11 @@ use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\UserInfoType;
-use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -71,8 +69,8 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $address = new Address();
-        $addAddressForm = $this->createForm(AddressType::class, $address);
 
+        $addAddressForm = $this->createForm(AddressType::class, $address);
         $addAddressForm->handleRequest($request);
 
         if ($addAddressForm->isSubmitted() && $addAddressForm->isValid()) {
@@ -96,7 +94,6 @@ class UserController extends AbstractController
     public function modifyAddress(Request $request, Address $id): Response
     {
         $updateAddressForm = $this->createForm(AddressType::class, $id);
-
         $updateAddressForm->handleRequest($request);
 
         if ($updateAddressForm->isSubmitted() && $updateAddressForm->isValid()) {

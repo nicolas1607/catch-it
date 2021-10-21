@@ -20,31 +20,106 @@ class AlbumRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Album[] Returns an array of Album objects
+    //  * @return Album[] Retourne les albums crées par l'admin
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findCreateByAdmin(): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a FROM App:album a
+                WHERE a.user is NULL
+                ORDER BY a.id ASC"
+            )
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Album
+    // /**
+    //  * @return Album[] Retourne un album crées par l'admin selon le nom
+    //  */
+    public function findByNameCreateByAdmin(String $album): Album
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a FROM App:album a
+                WHERE a.user IS NULL
+                AND a.name = '" . $album . "'"
+            )
+            ->getResult()[0];
     }
-    */
+
+    // /**
+    //  * @return Album[] Retourne les albums crées par l'admin ordoné par date
+    //  */
+    public function findCreateByAdminOrderByDate(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT alb FROM App:album alb
+                WHERE alb.user is NULL
+                ORDER BY alb.createdAt DESC"
+            )
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Album[] Retourne les 6 derniers albums
+    //  */
+    public function findLastAlbums(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT alb FROM App:album alb
+                WHERE alb.user is NULL
+                ORDER BY alb.createdAt DESC"
+            )
+            ->setMaxResults(6)
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Album[] Retournes les 6 albums les plus ajoutés
+    //  */
+    public function findMostAlbums(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a FROM App:album a
+                WHERE a.user IS NULL
+                ORDER BY a.added DESC"
+            )
+            ->setMaxResults(6)
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Album[] Retourne l'album utilisateur selon un nom d'album
+    //  */
+    public function findUserAlbumByName(String $name): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a FROM App:album a
+                WHERE a.user IS NOT NULL
+                AND a.name = '" . $name . "'"
+            )
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Album[] Retourne l'album utilisateur selon un item
+    //  */
+    public function findUserAlbumByItem(Int $id): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a FROM App:album a
+                WHERE a.user IS NOT NULL
+                AND a.name IN (
+                    SELECT alb.name FROM App:album alb
+                    INNER JOIN App:item i
+                    WITH i.album = alb.id
+                    WHERE i.id = " . $id . ")"
+            )
+            ->getResult();
+    }
 }

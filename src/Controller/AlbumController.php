@@ -5,20 +5,22 @@ namespace App\Controller;
 use App\Entity\Album;
 use DateTimeImmutable;
 use App\Form\AlbumType;
+use App\Repository\AlbumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class AlbumController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private AlbumRepository $albumRepo;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo)
     {
         $this->em = $em;
+        $this->albumRepo = $albumRepo;
     }
 
     /**
@@ -26,14 +28,7 @@ class AlbumController extends AbstractController
      */
     public function browse(): Response
     {
-        $user = $this->getUser();
-        $qb = $this->em->createQuery(
-            "SELECT alb FROM App:album alb
-            WHERE alb.user is NULL
-            ORDER BY alb.createdAt DESC"
-        );
-        $albums = $qb->getResult();
-
+        $albums = $this->albumRepo->findCreateByAdminOrderByDate();
         return $this->render('album/browse.html.twig', [
             'albums' => $albums
         ]);
@@ -45,7 +40,6 @@ class AlbumController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
-
         return $this->render('album/index.html.twig', [
             'user' => $user,
         ]);
@@ -56,10 +50,8 @@ class AlbumController extends AbstractController
      */
     public function add(Request $request): Response
     {
-        $user = $this->getUser();
         $album = new Album();
         $addAlbumForm = $this->createForm(AlbumType::class, $album, array());
-
         $addAlbumForm->handleRequest($request);
 
         if ($addAlbumForm->isSubmitted() && $addAlbumForm->isValid()) {
@@ -81,32 +73,32 @@ class AlbumController extends AbstractController
     /**
      * @Route("/album/add/{id}", name="add_album_exist")
      */
-    public function addExist(Request $request, Album $id): Response
+    public function addExist(Album $id): Response
     {
         $user = $this->getUser();
+        $albumOrigin = $this->albumRepo->findUserAlbumByName($id->getName());
 
-        $album = new Album;
-        $album->setName($id->getName())
-            ->setDescription($id->getDescription())
-            ->setUser($user);
-        $album->setCreatedAt(new DateTimeImmutable());
-        $user->addAlbum($album);
+        if ($albumOrigin) {
+            $this->addFlash('danger', 'Vous posséder déjà cette collection');
+            return $this->redirectToRoute('browse');
+        } else {
+            $album = new Album;
+            $album->setName($id->getName())
+                ->setDescription($id->getDescription())
+                ->setUser($user);
+            $album->setCreatedAt(new DateTimeImmutable());
+            $user->addAlbum($album);
 
-        $qb = $this->em->createQuery(
-            "SELECT a FROM App:album a
-            WHERE a.user IS NULL
-            AND a.name = '" . $album->getName() . "'"
-        );
-        $origin = $qb->getResult()[0];
-        $origin->setAdded($origin->getAdded() + 1);
+            $origin = $this->albumRepo->findByNameCreateByAdmin($album->getName());
+            $origin->setAdded($origin->getAdded() + 1);
 
-        $this->em->persist($user);
-        $this->em->persist($album);
-        $this->em->flush();
+            $this->em->persist($user);
+            $this->em->persist($album);
+            $this->em->flush();
 
-        $this->addFlash('success', $id->getName() . ' ajouté avec succès à vos collections !');
-
-        return $this->redirectToRoute('browse');
+            $this->addFlash('success', $id->getName() . ' ajouté avec succès à vos collections !');
+            return $this->redirectToRoute('browse');
+        }
     }
 
     /**
@@ -114,12 +106,7 @@ class AlbumController extends AbstractController
      */
     public function show(Album $album): Response
     {
-        $qb = $this->em->createQuery(
-            "SELECT a FROM App:album a
-            WHERE a.user IS NULL
-            AND a.name = '" . $album->getName() . "'"
-        );
-        $origin = $qb->getResult()[0];
+        $origin = $this->albumRepo->findByNameCreateByAdmin($album->getName());
         return $this->render('album/show.html.twig', [
             'album' => $album,
             'origin' => $origin
@@ -132,7 +119,6 @@ class AlbumController extends AbstractController
     public function edit(Request $request, Album $id): Response
     {
         $updateAlbumForm = $this->createForm(AlbumType::class, $id);
-
         $updateAlbumForm->handleRequest($request);
 
         if ($updateAlbumForm->isSubmitted() && $updateAlbumForm->isValid()) {

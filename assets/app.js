@@ -13,7 +13,6 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 
 // start the Stimulus application
 import './bootstrap';
-import './swiper';
 require('@fortawesome/fontawesome-free/js/all.js');
 
 // alert-success & alert-danger

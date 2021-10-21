@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass=AlbumRepository::class)
+ * @ORM\Entity(repositoryClass=App\Repository\AlbumRepository::class)
  */
 class Album
 {

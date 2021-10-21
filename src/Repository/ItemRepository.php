@@ -20,31 +20,67 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Item[] Returns an array of Item objects
+    //  * @return Item[] Retournes les items crées par l'admin
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findCreateByAdmin(): array
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT i FROM App:item i
+                    INNER JOIN App:album a
+                    WITH i.album = a.id
+                    WHERE a.user IS NULL"
+            )
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Item
+    // /**
+    //  * @return Item[] Retourne le nombre d'item pour un album
+    //  */
+    public function findCountByOneAlbum(String $collection): int
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT count(i.name) FROM App:item i
+                INNER JOIN App:album a
+                WITH a.id = i.album
+                WHERE a.name = '" . $collection . "'"
+            )
+            ->getResult()[0][1];
     }
-    */
+
+    // /**
+    //  * @return Album[] Retourne les 6 items les plus ajoutés
+    //  */
+    public function findMostItems(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT i FROM App:item i
+                INNER JOIN App:album a
+                WITH i.album = a.id
+                WHERE a.user IS NULL
+                ORDER BY i.added DESC"
+            )
+            ->setMaxResults(6)
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Album[] Retourne l'item un utilisateur selon un nom
+    //  */
+    public function findUserByIdAndItemByName(Int $id, String $name): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT i.name FROM App:user u
+                INNER JOIN App:album a
+                WITH u.id = a.user
+                INNER JOIN App:item i
+                WITH a.id = i.album
+                WHERE u.id = " . $id . "
+                AND i.name = '" . $name . "'"
+            )
+            ->getResult();
+    }
 }

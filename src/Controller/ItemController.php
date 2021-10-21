@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Entity\Album;
 use App\Form\ItemType;
+use App\Repository\AlbumRepository;
+use App\Repository\ItemRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +17,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ItemController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private AlbumRepository $albumRepo;
+    private ItemRepository $itemRepo;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo)
     {
         $this->em = $em;
+        $this->albumRepo = $albumRepo;
+        $this->itemRepo = $itemRepo;
     }
 
     /**
@@ -28,7 +34,6 @@ class ItemController extends AbstractController
     {
         $item = new Item();
         $addItemForm = $this->createForm(ItemType::class, $item);
-
         $addItemForm->handleRequest($request);
 
         if ($addItemForm->isSubmitted() && $addItemForm->isValid()) {
@@ -52,52 +57,43 @@ class ItemController extends AbstractController
     /**
      * @Route("/collection/item/add/{item_id}/{album_id}", name="add_item_exist")
      */
-    public function addExist(Request $request, Item $item_id, Album $album_id): Response
+    public function addExist(Item $item_id, Album $album_id): Response
     {
         $item_id->setAdded($item_id->getAdded() + 1);
-        // On récupère l'album de l'utilisateur
-        $qb = $this->em->createQuery(
-            "SELECT a FROM App:album a
-            WHERE a.user IS NOT NULL
-            AND a.name IN (
-                SELECT alb.name FROM App:album alb
-                INNER JOIN App:item i
-                WITH i.album = alb.id
-                WHERE i.id = " . $item_id->getId() . ")"
-        );
-        // Si le user possède déjà la collection ou non
-        if (count($qb->getResult()) == 0) {
+        $userAlbum = $this->albumRepo->findUserAlbumByItem($item_id->getId());
+        // Si le user ne possède pas encore la collection, on lui crée
+        if (count($userAlbum) == 0) {
             $user = $this->getUser();
-            $album = new Album;
-            $album->setName($album_id->getName())
+            $userAlbum = new Album;
+            $userAlbum->setName($album_id->getName())
                 ->setDescription($album_id->getDescription())
                 ->setUser($user);
-            $album->setCreatedAt(new DateTimeImmutable());
-            $user->addAlbum($album);
+            $userAlbum->setCreatedAt(new DateTimeImmutable());
+            $user->addAlbum($userAlbum);
+            $album_id->setAdded($album_id->getAdded() + 1);
         } else {
-            $album = $qb->getResult()[0];
+            $userAlbum = $userAlbum[0];
         }
-        // On récupère l'album d'origine pour la redirection
-        $qb = $this->em->createQuery(
-            "SELECT a FROM App:album a
-            WHERE a.user IS NULL
-            AND a.name = '" . $album->getName() . "'"
-        );
-        $origin = $qb->getResult()[0];
         // On ajoute l'item à l'album de l'utilisateur
-        $item = new Item;
-        $item->setName($item_id->getName())
-            ->setDescription($item_id->getDescription())
-            ->setAlbum($album);
-        $album->addItem($item);
+        $albumOrigin = $this->albumRepo->findByNameCreateByAdmin($userAlbum->getName());
+        $itemOrigin = $this->itemRepo->findUserByIdAndItemByName($this->getUser()->getId(), $item_id->getName());
+        if ($itemOrigin) {
+            $this->addFlash('danger', 'Vous posséder déjà cet item');
+            return $this->redirectToRoute('show_album', ['id' => $albumOrigin->getId()]);
+        } else {
+            $item = new Item;
+            $item->setName($item_id->getName())
+                ->setDescription($item_id->getDescription())
+                ->setAlbum($userAlbum);
+            $userAlbum->addItem($item);
 
-        $this->em->persist($item);
-        $this->em->persist($album);
-        $this->em->flush();
+            $this->em->persist($item);
+            $this->em->persist($userAlbum);
+            $this->em->flush();
 
-        $this->addFlash('success', $item_id->getName() . ' ajouté(e) avec succès !');
-
-        return $this->redirectToRoute('show_album', ['id' => $origin->getId()]);
+            $this->addFlash('success', $item_id->getName() . ' ajouté(e) avec succès !');
+            return $this->redirectToRoute('show_album', ['id' => $albumOrigin->getId()]);
+        }
     }
 
     /**
@@ -106,7 +102,6 @@ class ItemController extends AbstractController
     public function edit(Request $request, Item $id): Response
     {
         $updateItemForm = $this->createForm(ItemType::class, $id);
-
         $updateItemForm->handleRequest($request);
 
         if ($updateItemForm->isSubmitted() && $updateItemForm->isValid()) {
