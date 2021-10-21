@@ -16,14 +16,16 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Objet'
+                'label' => 'Objet',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,
                 'attr' => [
                     'rows' => 6,
-                    'maxlength' => 250
+                    'maxlength' => 250,
+                    'class' => 'form-control'
                 ]
             ])
             ->add('submit', SubmitType::class, [

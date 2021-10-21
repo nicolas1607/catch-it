@@ -15,16 +15,20 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('street', TextType::class, [
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('postalCode', TextType::class, [
-                'label' => 'Code postal'
+                'label' => 'Code postal',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('country', TextType::class, [
-                'label' => 'Pays'
+                'label' => 'Pays',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',

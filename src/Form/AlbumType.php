@@ -17,24 +17,18 @@ class AlbumType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Collection'
+                'label' => 'Collection',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'attr' => ['class' => 'form-control'],
                 'required' => false,
                 'attr' => [
                     'rows' => 6,
                     'maxlength' => 250
                 ]
             ])
-            // ->add('categories', EntityType::class, [
-            //     'class' => Category::class,
-            //     'label' => 'Category',
-            //     'mapped' => false,
-            //     'expanded' => true,
-            //     'multiple' => true,
-            //     'choice_label' => 'name',
-            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',
                 'attr' => ['class' => 'btn btn-primary']

@@ -17,15 +17,18 @@ class UserInfoType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('contact', TextType::class, [
                 'label' => 'Téléphone',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',

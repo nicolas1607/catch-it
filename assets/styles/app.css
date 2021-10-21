@@ -53,11 +53,7 @@ li {
     position: absolute !important;
     top: 5rem;
     right: 2rem;
-    min-width: 18rem;
-    height: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
     animation: bounce 0.7s ease infinite;
 }
 
@@ -83,77 +79,27 @@ li {
     gap: 2rem;
 }
 
-/* Login */
-
-.form-login,
-.form-register {
-    margin: auto;
-    width: 40rem;
-    border: solid .1px #cce7df;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-    border-radius: 1rem;
-}
-
-.form-group-login {
-    margin-bottom: 2rem;
-}
-
-.form-group-login label {
-    width: 8rem;
-}
-
-.form-submit-login {
-    display: flex;
-    justify-content: center;
-    margin-top: 4rem;
-}
-
-/* Register */
-
-.form-group-register {
-    margin-bottom: 2rem;
-}
-
-.form-group-register div label {
-    width: 8rem;
-}
-
-.form-group-agree div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-submit-register div {
-    display: flex;
-    justify-content: center;
-    margin-top: 4rem;
-}
-
 /* Form */
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    width: 4rem;
-    margin-right: 2rem;
-}
 
 input,
 textarea {
-    width: 18rem;
+    width: 100%;
     padding-left: .5rem;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
 }
 
 .form-group div,
 .form-submit div {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+}
+
+.form .form-group {
+    width: 24rem;
 }
 
 .form-group {
@@ -166,6 +112,52 @@ textarea {
 
 .form-submit button {
     width: 8rem;
+}
+
+
+.form-login,
+.form-register {
+    margin: auto;
+    width: 40rem;
+    border: solid .1px #cce7df;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    border-radius: 1rem;
+}
+
+.form-group-login,
+.form-group-register {
+    margin-bottom: 2rem;
+}
+
+.form-group-login label {
+    width: 8rem;
+}
+
+.form-submit-login,
+#registration_form_submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.form-submit-register div {
+    display: flex;
+    justify-content: center;
+}
+
+.form-group-agree div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group-agree label {
+    width: 90%;
+}
+
+.form-group-agree input {
+    width: 10%;
 }
 
 /* Card */
