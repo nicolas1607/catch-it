@@ -7,6 +7,7 @@ use App\Entity\Album;
 use App\Form\ItemType;
 use App\Repository\AlbumRepository;
 use App\Repository\ItemRepository;
+use App\Repository\RatingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,14 @@ class ItemController extends AbstractController
     private EntityManagerInterface $em;
     private AlbumRepository $albumRepo;
     private ItemRepository $itemRepo;
+    private RatingRepository $ratingRepo;
 
-    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo)
+    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo, RatingRepository $ratingRepo)
     {
         $this->em = $em;
         $this->albumRepo = $albumRepo;
         $this->itemRepo = $itemRepo;
+        $this->ratingRepo = $ratingRepo;
     }
 
     /**
@@ -94,6 +97,20 @@ class ItemController extends AbstractController
             $this->addFlash('success', $item_id->getName() . ' ajouté(e) avec succès !');
             return $this->redirectToRoute('show_album', ['id' => $albumOrigin->getId()]);
         }
+    }
+
+    /**
+     * @Route("/item/show/{id}", name="show_item")
+     */
+    public function show(Item $item): Response
+    {
+        $count_rating = $this->itemRepo->findCountRating($item->getId());
+        $rating = $this->ratingRepo->findRatingByItem($item);
+        return $this->render('item/show.html.twig', [
+            'item' => $item,
+            'rating' => $rating,
+            'count' => $count_rating
+        ]);
     }
 
     /**

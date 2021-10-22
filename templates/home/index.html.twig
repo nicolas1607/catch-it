@@ -59,7 +59,7 @@
                 {% for item in mostItems %}
                     <div class="card bg-light">
                         <div class="card-header">
-                            <a href="{{ path('show_album', {'id': item.album.id}) }}"><h4 class="card-title">{{ item.name }}</h4></a>
+                            <a href="{{ path('show_item', {'id': item.id}) }}"><h4 class="card-title">{{ item.name }}</h4></a>
                             <p class="card-added">{{ item.added }} 
                                 {% if item.added <= 1 %}
                                 ajout

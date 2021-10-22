@@ -35,22 +35,7 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Item[] Retourne le nombre d'item pour un album
-    //  */
-    public function findCountByOneAlbum(String $collection): int
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                "SELECT count(i.name) FROM App:item i
-                INNER JOIN App:album a
-                WITH a.id = i.album
-                WHERE a.name = '" . $collection . "'"
-            )
-            ->getResult()[0][1];
-    }
-
-    // /**
-    //  * @return Album[] Retourne les 6 items les plus ajoutés
+    //  * @return Item[] Retourne les 6 items les plus ajoutés
     //  */
     public function findMostItems(): array
     {
@@ -67,7 +52,7 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Album[] Retourne l'item un utilisateur selon un nom
+    //  * @return Item[] Retourne l'item un utilisateur selon un nom
     //  */
     public function findUserByIdAndItemByName(Int $id, String $name): array
     {
@@ -82,5 +67,35 @@ class ItemRepository extends ServiceEntityRepository
                 AND i.name = '" . $name . "'"
             )
             ->getResult();
+    }
+
+    // /**
+    //  * @return Int Retourne le nombre d'avis d'un item
+    //  */
+    public function findCountRating(Int $id): int
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT count(r.message) FROM App:rating r
+                INNER JOIN App:item i
+                WITH r.item = i.id
+                WHERE i.id = " . $id
+            )
+            ->getResult()[0][1];
+    }
+
+    // /**
+    //  * @return Int Retourne le nombre d'item pour un album
+    //  */
+    public function findCountByOneAlbum(String $collection): int
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT count(i.name) FROM App:item i
+                INNER JOIN App:album a
+                WITH a.id = i.album
+                WHERE a.name = '" . $collection . "'"
+            )
+            ->getResult()[0][1];
     }
 }

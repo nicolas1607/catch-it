@@ -16,6 +16,14 @@ li {
     list-style-type: none;
 }
 
+/* Container */
+
+.cont {
+    padding-left: 8rem;
+    padding-right: 8rem;
+    margin-bottom: 8rem;
+}
+
 /* Typographie */
 
 .title-h1 {
@@ -33,18 +41,6 @@ li {
 .title-center {
     text-align: center;
     margin-bottom: 4rem;
-}
-
-.title-right {
-    text-align: right;
-}
-
-/* Container */
-
-.cont {
-    padding-left: 8rem;
-    padding-right: 8rem;
-    margin-bottom: 8rem;
 }
 
 /* Alert Succes & Danger */
@@ -69,14 +65,6 @@ li {
 
 #alert-close {
     cursor: pointer;
-}
-
-/* Swiper */
-
-.swiper-slide {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
 }
 
 /* Form */
@@ -164,6 +152,11 @@ textarea {
 
 .card {
     position: relative;
+    box-shadow: 2px 2px 3px rgb(241, 237, 237);
+}
+
+.card:hover {
+    transform: translateY(-.5rem);
 }
 
 .card-title {
@@ -324,10 +317,14 @@ textarea {
 /* Profil */
 
 .info {
-    margin-top: 4rem;
+    margin-top: 6rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+}
+
+.comments {
+    margin-top: 6rem;
 }
 
 /* Admin */

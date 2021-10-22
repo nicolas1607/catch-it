@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Album;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ItemRepository;
 
@@ -37,6 +39,16 @@ class Item
      * @ORM\Column(type="integer", nullable=true, options={"default": 0})
      */
     private $added;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rating::class, mappedBy="item")
+     */
+    private $ratings;
+
+    public function __construct()
+    {
+        $this->ratings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +99,36 @@ class Item
     public function setAdded(?int $added): self
     {
         $this->added = $added;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getItem() === $this) {
+                $rating->setItem(null);
+            }
+        }
 
         return $this;
     }

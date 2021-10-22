@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\UserInfoType;
+use App\Repository\RatingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private RatingRepository $ratingRepo;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, RatingRepository $ratingRepo)
     {
         $this->em = $em;
+        $this->ratingRepo = $ratingRepo;
     }
 
     /**
@@ -38,8 +41,10 @@ class UserController extends AbstractController
     public function profile(): Response
     {
         $user = $this->getUser();
+        $ratings = $this->ratingRepo->findRatingByUser($user);
         return $this->render('user/profile.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'ratings' => $ratings
         ]);
     }
 

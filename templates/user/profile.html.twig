@@ -32,5 +32,29 @@
             {% endif %}
         </div>
     </div>
+    <div class="comments">
+        {% if user.ratings %}
+            <h3 class="title-h3">Vos commentaires</h3>
+            <div class="list">
+                {% for rate in ratings %}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>{{ rate.user.firstname }} {{ rate.user.lastname }}</strong>
+                            <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title">
+                                Collection : {{ rate.item.album.name }} </br>
+                                Item : {{ rate.item.name }}
+                            </p>
+                            <p>{{ rate.message }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 class="title-h3">Vous n'avez posté aucun commentaire</h3>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

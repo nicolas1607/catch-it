@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block body %}
+<div class="cont">
+    <div class="header">
+        <div class="header-title">
+            <h1 class="title-h1">{{ item.name }}</h1>
+        </div>
+        <div class="header-content">
+            <p class="header-desc">{{ item.description }}</p>
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="header-btn">
+                <a href="{{ path('edit_item', {'id': item.id}) }}" class="btn btn-primary">Modifier l'item</a>
+            </div>
+            {% elseif app.user %}
+            <div class="header-btn">
+                {# <a href="{{ path('add_rating', {'user_id': rate.user.id, 'item_id': rate.id}) }}" class="btn btn-primary">Ajouter un avis</a> #}
+                {# <a href="{{ path('add_item_exist', {'id': item.id}) }}" class="btn btn-primary">Ajouter à ma collection</a> #}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <h3 class="title-h2">Total de {{ count }} commentaires</h3>
+        {% if rating %}
+            <div class="list">
+                {% for rate in rating %}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>{{ rate.user.firstname }} {{ rate.user.lastname }}</strong>
+                            <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ rate.message }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
