@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\AlbumRepository;
 use App\Repository\ItemRepository;
+use App\Repository\RatingRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +15,14 @@ class AdminController extends AbstractController
     private AlbumRepository $albumRepo;
     private ItemRepository $itemRepo;
     private UserRepository $userRepo;
+    private RatingRepository $ratingRepo;
 
-    public function __construct(AlbumRepository $albumRepo, ItemRepository $itemRepo, UserRepository $userRepo)
+    public function __construct(AlbumRepository $albumRepo, ItemRepository $itemRepo, UserRepository $userRepo, RatingRepository $ratingRepo)
     {
         $this->albumRepo = $albumRepo;
         $this->itemRepo = $itemRepo;
         $this->userRepo = $userRepo;
+        $this->ratingRepo = $ratingRepo;
     }
 
     /**
@@ -67,6 +70,17 @@ class AdminController extends AbstractController
         $items = $this->itemRepo->findCreateByAdmin();
         return $this->render('admin/item.html.twig', [
             'items' => $items
+        ]);
+    }
+
+    /**
+     * @Route("/admin/rating", name="admin_rating")
+     */
+    public function rating(): Response
+    {
+        $ratings = $this->ratingRepo->findRatingNoValid();
+        return $this->render('admin/rating.html.twig', [
+            'ratings' => $ratings
         ]);
     }
 }

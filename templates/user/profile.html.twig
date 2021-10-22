@@ -40,10 +40,15 @@
                     <div class="card">
                         <div class="card-header">
                             <strong>{{ rate.user.firstname }} {{ rate.user.lastname }}</strong>
-                            <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
-                        </div>
+                            <div class="card-comment-action">
+                                <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
+                                <a href="{{ path('delete_rating', {'id': rate.id}) }}" class="card-comment-delete"><i class="fas fa-trash"></i></a>
+                            </div>                        </div>
                         <div class="card-body">
                             <p class="card-title">
+                                {% if rate.isValid == false %}
+                                <strong class="text-danger">En attente de validation</strong>
+                                {% endif %}
                                 Collection : {{ rate.item.album.name }} </br>
                                 Item : {{ rate.item.name }}
                             </p>

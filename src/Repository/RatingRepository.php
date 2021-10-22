@@ -24,13 +24,14 @@ class RatingRepository extends ServiceEntityRepository
     // /**
     //  * @return Rating[] Retournes la liste des commentaires pour un item
     //  */
-    public function findRatingByItem(Item $item)
+    public function findRatingByItem(Item $item): array
     {
         return $this->getEntityManager()
             ->createQuery(
                 "SELECT r FROM App:rating r
                 INNER JOIN App:item i
                 WITH r.item = " . $item->getId() . "
+                WHERE r.isValid = true
                 ORDER BY r.createdAt DESC"
             )
             ->getResult();
@@ -39,13 +40,26 @@ class RatingRepository extends ServiceEntityRepository
     // /**
     //  * @return Rating[] Retournes la liste des commentaires pour un utilisateur
     //  */
-    public function findRatingByUser(User $user)
+    public function findRatingByUser(User $user): array
     {
         return $this->getEntityManager()
             ->createQuery(
                 "SELECT r FROM App:rating r
                 WHERE r.user = " . $user->getId() . "
                 ORDER BY r.createdAt DESC"
+            )
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Rating[] Retournes la liste des commentaires non validés
+    //  */
+    public function findRatingNoValid(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT r FROM App:rating r
+                WHERE r.isValid = false"
             )
             ->getResult();
     }

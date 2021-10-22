@@ -38,6 +38,11 @@ class Rating
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isValid;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class Rating
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
 
         return $this;
     }

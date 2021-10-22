@@ -67,6 +67,72 @@ li {
     cursor: pointer;
 }
 
+/* Homepage */
+
+.home-albums {
+    margin-top: 6rem;
+    margin-bottom: 8rem;
+    position: relative;
+}
+
+/* Profil */
+
+.info {
+    margin-top: 6rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.comments {
+    margin-top: 6rem;
+}
+
+/* Admin */
+
+.table {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.table-action a {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+/* Navbar */
+
+.navbar {
+    margin-bottom: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom: solid .1px #cce7df;
+}
+
+.navbar .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-item {
+    margin-left: 2rem;
+}
+
+.logout,
+.login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* Form */
 
 input,
@@ -111,6 +177,7 @@ textarea {
     padding-top: 4rem;
     padding-bottom: 4rem;
     border-radius: 1rem;
+    box-shadow: 2px 2px 3px rgb(241, 237, 237);
 }
 
 .form-group-login,
@@ -168,7 +235,9 @@ textarea {
 .card:hover
 .card-add,
 .card:hover 
-.card-edit {
+.card-edit,
+.card:hover
+.card-comment-delete {
     display: block;
 }
 
@@ -184,8 +253,9 @@ textarea {
 
 .card-delete:hover,
 .card-add:hover,
-.card-edit:hover {
-    transform: scale(1.4);
+.card-edit:hover,
+.card-comment-delete:hover {
+    transform: scale(1.1);
 }
 
 .card-edit {
@@ -215,39 +285,13 @@ textarea {
     right: 1rem;
 }
 
-.card-cat {
-    margin-bottom: 1rem;
+.card-comment-delete {
+    display: none;
+    margin-left: 1rem;
 }
 
-/* Navbar */
-
-.navbar {
-    margin-bottom: 4rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-bottom: solid .1px #cce7df;
-}
-
-.navbar .nav {
+.card-comment-action {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-list {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-item {
-    margin-left: 2rem;
-}
-
-.logout,
-.login {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -284,14 +328,6 @@ textarea {
     margin-left: 1rem;
 }
 
-/* Homepage */
-
-.home-albums {
-    margin-top: 6rem;
-    margin-bottom: 8rem;
-    position: relative;
-}
-
 /* List albums / items */
 
 #new_album_name {
@@ -306,36 +342,6 @@ textarea {
     margin-top: 4rem;
 }
 
-/* Add Album */
-
 #album_categories * {
     width: 2rem;
-}
-
-
-
-/* Profil */
-
-.info {
-    margin-top: 6rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
-
-.comments {
-    margin-top: 6rem;
-}
-
-/* Admin */
-
-.table {
-    width: 100%;
-    margin-top: 2rem;
-    text-align: center;
-}
-
-.table-action a {
-    margin-right: 1rem;
-    margin-left: 1rem;
 }

@@ -79,7 +79,8 @@ class ItemRepository extends ServiceEntityRepository
                 "SELECT count(r.message) FROM App:rating r
                 INNER JOIN App:item i
                 WITH r.item = i.id
-                WHERE i.id = " . $id
+                WHERE r.isValid = true
+                AND i.id = " . $id
             )
             ->getResult()[0][1];
     }

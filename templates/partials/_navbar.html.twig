@@ -23,8 +23,9 @@
         <div class="logout">
             {% if is_granted('ROLE_ADMIN') %}
             <a class="nav-link" href="{{ url('admin_user') }}">Admin</a>
-            {% endif %}
+            {% elseif app.user %}
             <a class="nav-link" href="{{ url('profile') }}">Mon profil</a>
+            {% endif %}
             <a class="nav-link" href="{{ url('app_logout') }}">Logout</a>
         </div>
         {% else %}

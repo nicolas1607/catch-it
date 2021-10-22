@@ -17,4 +17,4 @@ require('@fortawesome/fontawesome-free/js/all.js');
 
 // alert-success & alert-danger
 const alert = document.querySelector('.alert');
-setTimeout(function () { if (alert) alert.remove() }, 2000);
+setTimeout(function () { if (alert) alert.remove() }, 3000);

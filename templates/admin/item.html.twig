@@ -20,6 +20,9 @@
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="{{ url('admin_item') }}">Les items</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="{{ url('admin_rating') }}">Les avis</a>
+        </li>
     </ul>
     <table class="table">
         <thead>
@@ -32,7 +35,6 @@
             </tr>
         </thead>
         <tbody>
-        {% set i = 0 %}
         {% for item in items %}
             <tr>
                 <td>{{ item.id }}</td>
