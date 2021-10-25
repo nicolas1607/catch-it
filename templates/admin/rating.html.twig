@@ -34,28 +34,29 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-        {% for rate in ratings %}
-            <tr>
-                <td>{{ rate.user.firstname }} {{ rate.user.lastname }}</td>
-                <td>{{ rate.item.album.name }}</td>
-                <td>{{ rate.item.name }}</td>
-                <td>{{ rate.message }}</td>
-                <td class="table-action">
-                    <a href="{{ path('valid_rating', {'id': rate.id}) }}" title="Valider un item">
-                        <i class="fas fa-check"></i>
-                    </a>
-                    <a href="{{ path('delete_rating', {'id': rate.id}) }}" title="Supprimer un item">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
+        {% if ratings %}
+            <tbody>
+            {% for rate in ratings %}
+                <tr>
+                    <td>{{ rate.user.firstname }} {{ rate.user.lastname }}</td>
+                    <td>{{ rate.item.album.name }}</td>
+                    <td>{{ rate.item.name }}</td>
+                    <td>{{ rate.message }}</td>
+                    <td class="table-action">
+                        <a href="{{ path('valid_rating', {'id': rate.id}) }}" title="Valider un commentaire">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="{{ path('delete_rating', {'id': rate.id}) }}" title="Refuser un commentaire">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
         {% else %}
-            <tr>
-                <td colspan="4">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
+        </table>
+        <h4 class="admin-no-result">Aucun résultat</h4>
+        {% endif %}
     </table>
 </div>
 {% endblock %}

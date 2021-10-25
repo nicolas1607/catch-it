@@ -35,28 +35,29 @@
                 <th>Roles</th>
             </tr>
         </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.contact }}</td>
-                <td>
-                    <ul class="user-roles">
-                        {% for role in user.roles %}
-                        <li>{{ role }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
+        {% if users %}
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.contact }}</td>
+                    <td>
+                        <ul class="user-roles">
+                            {% for role in user.roles %}
+                            <li>{{ role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
         {% else %}
-            <tr>
-                <td colspan="4">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
+        </table>
+        <h4 class="admin-no-result">Aucun résultat</h4>
+        {% endif %}
     </table>
 </div>
 {% endblock %}

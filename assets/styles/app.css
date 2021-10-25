@@ -101,6 +101,11 @@ li {
     margin-left: 1rem;
 }
 
+.admin-no-result {
+    margin-top: 4rem;
+    text-align: center;
+}
+
 /* Navbar */
 
 .navbar {

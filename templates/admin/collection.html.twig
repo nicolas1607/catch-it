@@ -35,36 +35,37 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-        {% set i = 0 %}
-        {% for collection in collections %}
-            <tr>
-                <td>{{ collection[0] }}</td>
-                <td>{{ collection[1] }}</td>
-                <td>{{ collection[2] }}</td>
-                <td>{{ collection[3] }}</td>
-                <td>{{ collection[4]|date("m/d/Y") }}</td>
-                <td class="table-action">
-                    <a href="{{ path('show_album', {'id': collection[0]}) }}" title="Voir une collection">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                    <a href="{{ path('add_item', {'album_id': collection[0]}) }}" title="Ajouter un item">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                    <a href="{{ path('edit_album', {'id': collection[0]}) }}" title="Modifier une collection">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a href="{{ path('delete_album', {'id': collection[0]}) }}" title="Supprimer une collection">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
+        {% if collections %}
+            <tbody>
+            {% set i = 0 %}
+            {% for collection in collections %}
+                <tr>
+                    <td>{{ collection[0] }}</td>
+                    <td>{{ collection[1] }}</td>
+                    <td>{{ collection[2] }}</td>
+                    <td>{{ collection[3] }}</td>
+                    <td>{{ collection[4]|date("m/d/Y") }}</td>
+                    <td class="table-action">
+                        <a href="{{ path('show_album', {'id': collection[0]}) }}" title="Voir une collection">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{{ path('add_item', {'album_id': collection[0]}) }}" title="Ajouter un item">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="{{ path('edit_album', {'id': collection[0]}) }}" title="Modifier une collection">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ path('delete_album', {'id': collection[0]}) }}" title="Supprimer une collection">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
         {% else %}
-            <tr>
-                <td colspan="4">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
+        </table>
+        <h4 class="admin-no-result">Aucun résultat</h4>
+        {% endif %}
     </table>
 </div>
 {% endblock %}

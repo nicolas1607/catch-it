@@ -123,7 +123,7 @@ class ItemController extends AbstractController
 
         if ($updateItemForm->isSubmitted() && $updateItemForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('item');
+            return $this->redirectToRoute('show_item', ['id' => $id->getId()]);
         }
 
         return $this->render('item/edit.html.twig', [
