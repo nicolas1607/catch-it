@@ -16,7 +16,7 @@
             </div>
             {% elseif app.user %}
             <div class="header-btn">
-                <a href="{{ path('add_rating', {'item_id': item.id}) }}" class="btn btn-primary">Ajouter un avis</a>
+                <a href="{{ path('add_comment', {'item_id': item.id}) }}" class="btn btn-primary">Ajouter un avis</a>
                 {# <a href="{{ path('add_item_exist', {'id': item.id}) }}" class="btn btn-primary">Ajouter à ma collection</a> #}
             </div>
             {% endif %}
@@ -24,15 +24,15 @@
     </div>
     <div>
         <h3 class="title-h2">Total de {{ count }} commentaires</h3>
-        {% if rating %}
+        {% if comment %}
             <div class="list">
-                {% for rate in rating %}
+                {% for rate in comment %}
                     <div class="card">
                         <div class="card-header">
                             <strong>{{ rate.user.firstname }} {{ rate.user.lastname }}</strong>
                             <div class="card-comment-action">
                                 <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
-                                <a href="{{ path('delete_rating', {'id': rate.id}) }}" class="card-comment-delete"><i class="fas fa-trash"></i></a>
+                                <a href="{{ path('delete_comment', {'id': rate.id}) }}" class="card-comment-delete"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
                         <div class="card-body">

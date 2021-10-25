@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\UserInfoType;
-use App\Repository\RatingRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +16,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     private EntityManagerInterface $em;
-    private RatingRepository $ratingRepo;
+    private CommentRepository $commentRepo;
 
-    public function __construct(EntityManagerInterface $em, RatingRepository $ratingRepo)
+    public function __construct(EntityManagerInterface $em, CommentRepository $commentRepo)
     {
         $this->em = $em;
-        $this->ratingRepo = $ratingRepo;
+        $this->commentRepo = $commentRepo;
     }
 
     /**
@@ -41,10 +41,10 @@ class UserController extends AbstractController
     public function profile(): Response
     {
         $user = $this->getUser();
-        $ratings = $this->ratingRepo->findRatingByUser($user);
+        $comments = $this->commentRepo->findCommentByUser($user);
         return $this->render('user/profile.html.twig', [
             'user' => $user,
-            'ratings' => $ratings
+            'comments' => $comments
         ]);
     }
 

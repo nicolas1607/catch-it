@@ -72,11 +72,11 @@ class ItemRepository extends ServiceEntityRepository
     // /**
     //  * @return Int Retourne le nombre d'avis d'un item
     //  */
-    public function findCountRating(Int $id): int
+    public function findCountComment(Int $id): int
     {
         return $this->getEntityManager()
             ->createQuery(
-                "SELECT count(r.message) FROM App:rating r
+                "SELECT count(r.message) FROM App:comment r
                 INNER JOIN App:item i
                 WITH r.item = i.id
                 WHERE r.isValid = true

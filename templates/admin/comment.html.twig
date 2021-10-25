@@ -21,7 +21,7 @@
             <a class="nav-link" data-bs-toggle="tab" href="{{ url('admin_item') }}">Les items</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="{{ url('admin_rating') }}">Les avis</a>
+            <a class="nav-link active" data-bs-toggle="tab" href="{{ url('admin_comment') }}">Les avis</a>
         </li>
     </ul>
     <table class="table">
@@ -34,19 +34,19 @@
                 <th>Action</th>
             </tr>
         </thead>
-        {% if ratings %}
+        {% if comments %}
             <tbody>
-            {% for rate in ratings %}
+            {% for rate in comments %}
                 <tr>
                     <td>{{ rate.user.firstname }} {{ rate.user.lastname }}</td>
                     <td>{{ rate.item.album.name }}</td>
                     <td>{{ rate.item.name }}</td>
                     <td>{{ rate.message }}</td>
                     <td class="table-action">
-                        <a href="{{ path('valid_rating', {'id': rate.id}) }}" title="Valider un commentaire">
+                        <a href="{{ path('valid_comment', {'id': rate.id}) }}" title="Valider un commentaire">
                             <i class="fas fa-check"></i>
                         </a>
-                        <a href="{{ path('delete_rating', {'id': rate.id}) }}" title="Refuser un commentaire">
+                        <a href="{{ path('delete_comment', {'id': rate.id}) }}" title="Refuser un commentaire">
                             <i class="fas fa-times"></i>
                         </a>
                     </td>

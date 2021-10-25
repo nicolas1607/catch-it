@@ -7,7 +7,7 @@ use App\Entity\Album;
 use App\Form\ItemType;
 use App\Repository\AlbumRepository;
 use App\Repository\ItemRepository;
-use App\Repository\RatingRepository;
+use App\Repository\CommentRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,14 +20,14 @@ class ItemController extends AbstractController
     private EntityManagerInterface $em;
     private AlbumRepository $albumRepo;
     private ItemRepository $itemRepo;
-    private RatingRepository $ratingRepo;
+    private CommentRepository $commentRepo;
 
-    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo, RatingRepository $ratingRepo)
+    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo, CommentRepository $commentRepo)
     {
         $this->em = $em;
         $this->albumRepo = $albumRepo;
         $this->itemRepo = $itemRepo;
-        $this->ratingRepo = $ratingRepo;
+        $this->commentRepo = $commentRepo;
     }
 
     /**
@@ -104,12 +104,12 @@ class ItemController extends AbstractController
      */
     public function show(Item $item): Response
     {
-        $count_rating = $this->itemRepo->findCountRating($item->getId());
-        $rating = $this->ratingRepo->findRatingByItem($item);
+        $count_comment = $this->itemRepo->findCountComment($item->getId());
+        $comment = $this->commentRepo->findCommentByItem($item);
         return $this->render('item/show.html.twig', [
             'item' => $item,
-            'rating' => $rating,
-            'count' => $count_rating
+            'comment' => $comment,
+            'count' => $count_comment
         ]);
     }
 

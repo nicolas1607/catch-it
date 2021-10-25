@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Repository\AlbumRepository;
 use App\Repository\ItemRepository;
-use App\Repository\RatingRepository;
+use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,14 +15,14 @@ class AdminController extends AbstractController
     private AlbumRepository $albumRepo;
     private ItemRepository $itemRepo;
     private UserRepository $userRepo;
-    private RatingRepository $ratingRepo;
+    private CommentRepository $commentRepo;
 
-    public function __construct(AlbumRepository $albumRepo, ItemRepository $itemRepo, UserRepository $userRepo, RatingRepository $ratingRepo)
+    public function __construct(AlbumRepository $albumRepo, ItemRepository $itemRepo, UserRepository $userRepo, CommentRepository $commentRepo)
     {
         $this->albumRepo = $albumRepo;
         $this->itemRepo = $itemRepo;
         $this->userRepo = $userRepo;
-        $this->ratingRepo = $ratingRepo;
+        $this->commentRepo = $commentRepo;
     }
 
     /**
@@ -74,13 +74,13 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/rating", name="admin_rating")
+     * @Route("/admin/comment", name="admin_comment")
      */
-    public function rating(): Response
+    public function comment(): Response
     {
-        $ratings = $this->ratingRepo->findRatingNoValid();
-        return $this->render('admin/rating.html.twig', [
-            'ratings' => $ratings
+        $comments = $this->commentRepo->findCommentNoValid();
+        return $this->render('admin/comment.html.twig', [
+            'comments' => $comments
         ]);
     }
 }

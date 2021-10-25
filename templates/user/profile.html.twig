@@ -33,16 +33,16 @@
         </div>
     </div>
     <div class="comments">
-        {% if user.ratings %}
+        {% if user.comments %}
             <h3 class="title-h3">Vos commentaires</h3>
             <div class="list">
-                {% for rate in ratings %}
+                {% for rate in comments %}
                     <div class="card">
                         <div class="card-header">
                             <strong>{{ rate.user.firstname }} {{ rate.user.lastname }}</strong>
                             <div class="card-comment-action">
                                 <strong>{{ rate.createdAt|date("m/d/Y") }}</strong>
-                                <a href="{{ path('delete_rating', {'id': rate.id}) }}" class="card-comment-delete"><i class="fas fa-trash"></i></a>
+                                <a href="{{ path('delete_comment', {'id': rate.id}) }}" class="card-comment-delete"><i class="fas fa-trash"></i></a>
                             </div>                        </div>
                         <div class="card-body">
                             <p class="card-title">
