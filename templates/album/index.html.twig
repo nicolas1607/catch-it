@@ -5,12 +5,16 @@
 {% block body %}
 <div class="cont">
     <div class="header">
-        <h1 class="title-h1">Mes collections</h1>
+        <div class="header-title">
+            <h1 class="title-h1">Mes collections</h1>
+        </div>
         <div class="header-content">
             <p>Faites savoir votre passion, créer vos collections ! </br>
             Partagez vos envies et chercher la perle rare.</p>
             <div class="header-btn">
-                <a href="{{ url('browse') }}" class="btn btn-primary">Ajouter une collection</a>
+                <div class="header-list-btn">
+                    <a href="{{ url('browse') }}" class="btn btn-primary">Ajouter une collection</a>
+                </div>
             </div>
         </div>
     </div>

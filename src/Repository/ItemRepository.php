@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Item;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Item|null find($id, $lockMode = null, $lockVersion = null)
@@ -98,5 +99,38 @@ class ItemRepository extends ServiceEntityRepository
                 WHERE a.name = '" . $collection . "'"
             )
             ->getResult()[0][1];
+    }
+
+    // /**
+    //  * @return Int Retourne la valeur de sa note /5
+    //  */
+    public function findRating(Item $item): ?int
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT AVG(r.rate) FROM App:item i
+                INNER JOIN App:rating r
+                WITH r.item = i.id
+                WHERE i.id = '" . $item->getId() . "'"
+            )
+            ->getResult()[0][1];
+    }
+
+    // /**
+    //  * @return Int Retourne la valeur de sa note /5
+    //  */
+    public function findRatingScoreByUser(Item $item, User $user): ?array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT r.rate FROM App:item i
+                INNER JOIN App:rating r
+                WITH r.item = i.id
+                INNER JOIN App:user u
+                WITH r.user = u.id
+                WHERE i.id = '" . $item->getId() . "' 
+                AND u.id = " . $user->getId()
+            )
+            ->getResult();
     }
 }

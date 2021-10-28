@@ -136,11 +136,19 @@ class AlbumController extends AbstractController
      */
     public function delete(Album $id): Response
     {
-        $user = $this->getUser();
+        if (!$id->getUser()) {
+            $albums = $this->albumRepo->findBy(['name' => $id->getName()]);
+            foreach ($albums as $album) {
+                $this->em->remove($album);
+            }
+        }
         $this->em->remove($id);
         $this->em->flush();
 
-        if (in_array('ROLE_ADMIN', $user->getRoles())) return $this->redirectToRoute('admin_collection');
-        else return $this->redirectToRoute('album');
+        if ($id->getUser()) {
+            return $this->redirectToRoute('album');
+        } else {
+            return $this->redirectToRoute('admin_collection');
+        }
     }
 }

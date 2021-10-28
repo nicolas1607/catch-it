@@ -29,6 +29,10 @@ class AppFixtures extends Fixture
         $manager->persist($admin);
         $manager->flush();
 
+        $user = $this->createAdminCefim();
+        $manager->persist($user);
+        $manager->flush();
+
         $user = $this->createUser();
         $manager->persist($user);
         $manager->flush();
@@ -73,11 +77,24 @@ class AppFixtures extends Fixture
 
         $admin = new User;
         $admin->setEmail('nicolas160796@gmail.com')
-            ->setPassword($this->passHasher->hashPassword($admin, 'test'))
+            ->setPassword('$2y$13$GYXDjaRD1PDQ8S2JhH0gWOI6UWsuhXVPFMPqEpUPXaeHyN60yQm6i')
             ->setRoles(["ROLE_ADMIN"])
             ->setFirstname('Nicolas')
             ->setLastname('Mormiche')
             ->setContact('0627712403');
+        return $admin;
+    }
+
+    public function createAdminCefim(): User
+    {
+        $faker = Factory::create();
+
+        $admin = new User;
+        $admin->setEmail('mauger@cefim.eu')
+            ->setPassword('$2y$13$jfYUpi5z/9hYwCX/XnHzH.9f0TMergRhMYBQXibGoJrR2xxv6PnPO')
+            ->setRoles(["ROLE_ADMIN"])
+            ->setFirstname('Mickaël')
+            ->setLastname('Auger');
         return $admin;
     }
 
@@ -87,7 +104,7 @@ class AppFixtures extends Fixture
 
         $admin = new User;
         $admin->setEmail('adrien.sandras@cube.com')
-            ->setPassword($this->passHasher->hashPassword($admin, 'test'))
+            ->setPassword('$2y$13$GYXDjaRD1PDQ8S2JhH0gWOI6UWsuhXVPFMPqEpUPXaeHyN60yQm6i')
             ->setRoles([""])
             ->setFirstname('Nicolas')
             ->setLastname('Mormiche');

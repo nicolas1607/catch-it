@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Item;
 use App\Entity\Album;
 use App\Form\ItemType;
+use App\Form\RatingFormType;
 use App\Repository\AlbumRepository;
 use App\Repository\ItemRepository;
 use App\Repository\CommentRepository;
+use App\Repository\RatingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +23,15 @@ class ItemController extends AbstractController
     private AlbumRepository $albumRepo;
     private ItemRepository $itemRepo;
     private CommentRepository $commentRepo;
+    private RatingRepository $ratingRepo;
 
-    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo, CommentRepository $commentRepo)
+    public function __construct(EntityManagerInterface $em, AlbumRepository $albumRepo, ItemRepository $itemRepo, CommentRepository $commentRepo, RatingRepository $ratingRepo)
     {
         $this->em = $em;
         $this->albumRepo = $albumRepo;
         $this->itemRepo = $itemRepo;
         $this->commentRepo = $commentRepo;
+        $this->ratingRepo = $ratingRepo;
     }
 
     /**
@@ -102,15 +106,54 @@ class ItemController extends AbstractController
     /**
      * @Route("/item/show/{id}", name="show_item")
      */
-    public function show(Item $item): Response
+    public function show(Request $request, Item $item): Response
     {
         $count_comment = $this->itemRepo->findCountComment($item->getId());
         $comment = $this->commentRepo->findCommentByItem($item);
-        return $this->render('item/show.html.twig', [
-            'item' => $item,
-            'comment' => $comment,
-            'count' => $count_comment
-        ]);
+        $rating = $this->itemRepo->findRating($item);
+        if ($this->getUser()) {
+            $rate = $this->ratingRepo->findByItemAndUser($item, $this->getUser());
+            $rateUserScore = $this->itemRepo->findRatingScoreByUser($item, $this->getUser());
+            if ($rate) {
+                $rate = $rate[0];
+            }
+        }
+
+        // formulaire d'ajout rating
+        $addRatingForm = $this->createForm(RatingFormType::class);
+        $addRatingForm->handleRequest($request);
+        if ($addRatingForm->isSubmitted() && $addRatingForm->isValid()) {
+            $this->em->flush();
+            return $this->redirectToRoute('show_item', ['id' => $item->getId()]);
+        }
+
+        // formulaire de modification rating
+        $addRatingForm = $this->createForm(RatingFormType::class);
+        $addRatingForm->handleRequest($request);
+        if ($addRatingForm->isSubmitted() && $addRatingForm->isValid()) {
+            $this->em->flush();
+            return $this->redirectToRoute('show_item', ['id' => $item->getId()]);
+        }
+
+        if ($this->getUser()) {
+            return $this->render('item/show.html.twig', [
+                'item' => $item,
+                'comment' => $comment,
+                'count' => $count_comment,
+                'add_rating_form' => $addRatingForm->createView(),
+                'rating' => $rating,
+                'rateUser' => $rateUserScore,
+                'rate' => $rate
+            ]);
+        } else {
+            return $this->render('item/show.html.twig', [
+                'item' => $item,
+                'comment' => $comment,
+                'count' => $count_comment,
+                'add_rating_form' => $addRatingForm->createView(),
+                'rating' => $rating,
+            ]);
+        }
     }
 
     /**
@@ -136,9 +179,19 @@ class ItemController extends AbstractController
      */
     public function delete(Item $item): Response
     {
+        if (!$item->getAlbum()->getUser()) {
+            $items = $this->itemRepo->findBy(['name' => $item->getName()]);
+            foreach ($items as $item) {
+                $this->em->remove($item);
+            }
+        }
         $this->em->remove($item);
         $this->em->flush();
 
-        return $this->redirectToRoute('show_album', ['id' => $item->getAlbum()->getId()]);
+        if ($item->getAlbum()->getUser()) {
+            return $this->redirectToRoute('show_album', ['id' => $item->getAlbum()->getId()]);
+        } else {
+            return $this->redirectToRoute('admin_item');
+        }
     }
 }
