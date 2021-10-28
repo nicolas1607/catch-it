@@ -28,9 +28,19 @@ class Rating
     private $item;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $rate;
+    private $message;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isValid;
 
     public function getId(): ?int
     {
@@ -61,14 +71,38 @@ class Rating
         return $this;
     }
 
-    public function getRate(): ?int
+    public function getMessage(): ?string
     {
-        return $this->rate;
+        return $this->message;
     }
 
-    public function setRate(int $rate): self
+    public function setMessage(string $message): self
     {
-        $this->rate = $rate;
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
 
         return $this;
     }

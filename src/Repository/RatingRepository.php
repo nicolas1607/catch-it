@@ -22,15 +22,44 @@ class RatingRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Rating Retourne un avis en fonction d'un item et d'un user
+    //  * @return Rating[] Retournes la liste des commentaires pour un item
     //  */
-    public function findByItemAndUser(Item $item, User $user): array
+    public function findRatingByItem(Item $item): array
     {
         return $this->getEntityManager()
             ->createQuery(
                 "SELECT r FROM App:rating r
-                WHERE r.item = " . $item->getId() . "
-                AND r.user = " . $user->getId()
+                INNER JOIN App:item i
+                WITH r.item = " . $item->getId() . "
+                WHERE r.isValid = true
+                ORDER BY r.createdAt DESC"
+            )
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Rating[] Retournes la liste des commentaires pour un utilisateur
+    //  */
+    public function findRatingByUser(User $user): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT r FROM App:rating r
+                WHERE r.user = " . $user->getId() . "
+                ORDER BY r.createdAt DESC"
+            )
+            ->getResult();
+    }
+
+    // /**
+    //  * @return Rating[] Retournes la liste des commentaires non validés
+    //  */
+    public function findRatingNoValid(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT r FROM App:rating r
+                WHERE r.isValid = false"
             )
             ->getResult();
     }

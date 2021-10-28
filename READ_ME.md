@@ -2,9 +2,9 @@
             // Bienvenue sur Catch'it ! //
 
 
-L'application permet de gérer vos collections parmis celle proposées sur le site.
-En ajoutant les items que vous possedez déjà, vous augmentez leur popularité auprès
-des autres utilisateurs. Il vous est également possible de donner votre avis sur un item.
+L'application permet de gérer vos collections en ajoutant la liste
+des items déjà obtenus. Il vous est également possible de donner votre avis
+sur un item.
 
 
 
@@ -15,7 +15,8 @@ des autres utilisateurs. Il vous est également possible de donner votre avis su
 > composer install
 
 
-        1.2 Initialiser la base de donnée
+
+        1.2 Installer la base de donnée
 
 > symfony console doc:data:create
 > symfony console doc:schema:update --force
@@ -32,6 +33,7 @@ qu'à la gestion des collections, des items et des commentaires :
 
 > Adresse email : mauger@cefim.eu
 > Mot de passe : mauger
+
 
 
         2.1 Gestion administrateur
@@ -62,14 +64,10 @@ Un utilisateur ne pourra ajouter aucune collection ni aucun item. Il pourra
 en revanche ajouter à ses collections, une des celles proposées par les
 administrateur et ajouter les items qu'il possède déjà.
 
-Il lui est également possible de noter un item /5 ou encore de laisser un 
-commentaire, qui sera valider ou refuser par l'admin s'il ne respecte pas la charte
-du site.
-
 
 
     4. Compte visiteur
 
-En tant que visiteur du site, vous n'avez pas la possibilité d'intéragir avec les
-collections ou les items. Vous pouvez cependant consulter la totalité des collections, 
-des items, de leur note globale ainsi que de leurs commentaires.
+En tant que visiteur du site, vous ne pouvez aucunement intéragir. Vous
+pouvez cependant consulter la totalité des collections, des items ainsi que
+de leurs commentaires.

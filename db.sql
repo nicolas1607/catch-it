@@ -1,3 +1,24 @@
+-- DECLARE @json NVarChar(2048) = N'{ 
+--     "email": "nicolas160796@gmail.com",
+--     "password": "$2y$13$XOyg2hn/RUMWm/KxZL/qi.jay8L4TrAEOGe4UhwkH0yo.1.mSEXXq",
+--     "roles": ["ROLE_ADMIN"]
+-- }'
+
+-- INSERT INTO user
+-- SELECT * 
+-- FROM OPENJSON(@json)
+-- WITH  (
+--         email      varchar         '$.email',  
+--         password   varchar         '$.password', 
+--         roles      nvarchar(max)   '$.roles' 
+--     );
+
+-- INSERT INTO user(email, password, firstname, lastname, contact, roles)
+-- VALUES ('nicolas160796@gmail.com', '$2y$13$XOyg2hn/RUMWm/KxZL/qi.jay8L4TrAEOGe4UhwkH0yo.1.mSEXXq',
+-- 'Nicolas', 'Mormiche', '0627712403', OPENJSON(@admin))
+
+
+
 INSERT INTO album(id, name, description, created_at) VALUES (1, 'Lego', "The Lego Group, ou Lego Group, est une entreprise danoise fabriquant des jeux dont la gamme de produits la plus connue est Lego, ils sont constitués de briques élémentaires à assembler.", '2021-01-22');
 INSERT INTO item(name, album_id) VALUES ('Millennium Falcon', 1);
 INSERT INTO item(name, album_id) VALUES ('Stormtrooper', 1);
