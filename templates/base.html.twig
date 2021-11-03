@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}Catch'it{% endblock %}</title>
     {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
+    {# {{ encore_entry_link_tags('app') }} #}       {# Unknown "encore_entry_link_tags" function ... #}
+    <link rel="stylesheet" href="/build/app.css">
     {% endblock %}
 
     {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    {# {{ encore_entry_script_tags('app') }} #}     {# Unknown "encore_entry_link_tags" function ... #}
+    <script src="/build/runtime.js"></script>
+    <script src="/build/app.js"></script>
     {% endblock %}
 </head>
 
