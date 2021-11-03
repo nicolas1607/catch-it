@@ -12,16 +12,16 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailVerifier
 {
-    private $verifyEmailHelper;
-    private $mailer;
-    private $entityManager;
+    // private $verifyEmailHelper;
+    // private $mailer;
+    // private $entityManager;
 
-    public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
-    {
-        $this->verifyEmailHelper = $helper;
-        $this->mailer = $mailer;
-        $this->entityManager = $manager;
-    }
+    // public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
+    // {
+    //     $this->verifyEmailHelper = $helper;
+    //     $this->mailer = $mailer;
+    //     $this->entityManager = $manager;
+    // }
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
     {
